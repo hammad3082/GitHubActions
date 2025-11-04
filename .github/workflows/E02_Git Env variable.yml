@@ -1,0 +1,25 @@
+name: 'Environment Variables Demo'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Mainjob:
+    runs-on: ubuntu-latest
+    
+    env: 
+      GLOBAL_VAR: "This is a global variable"
+      MY_VAR: "Hello World"
+
+    steps:
+      - name: Set up environment variables
+        run: |
+          echo "MY_VAR2=Hello World" >> $GITHUB_ENV
+          echo "ANOTHER_VAR=Another Value" >> $GITHUB_ENV
+
+      - name: Use environment variables
+        run: |
+          echo "MY_VAR is $MY_VAR"
+          echo "MY_VAR2 is {{ env.MY_VAR2 }}"
+          echo "GLOBAL_VAR is {{ env.GLOBAL_VAR }}"
+          echo "ANOTHER_VAR is {{ env.ANOTHER_VAR }}"
