@@ -1,0 +1,36 @@
+name: Quick Basic CI
+
+on:
+  push:
+    paths:
+      - "02-basic-ci/**"
+  pull_request:
+    paths:
+      - "02-basic-ci/**"
+      
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 02-basic-ci
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Show Project Files
+        run: ls -R
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Python Tests
+        run: pytest tests -q
+
+      - name: Run JS Script
+        run: node sample-project/script.js
