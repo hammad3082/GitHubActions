@@ -33,7 +33,7 @@ jobs:
         run: pip install pytest
 
       - name: Run Python Tests
-        run: python -m pytest tests -q
+        run: python -m pytest tests -q -s
 
       - name: Run JS Script
         run: node sample-project/script.js
