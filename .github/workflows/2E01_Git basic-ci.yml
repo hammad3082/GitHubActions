@@ -7,7 +7,7 @@ on:
   pull_request:
     paths:
       - "02-basic-ci/**"
-      
+
   workflow_dispatch:
 
 jobs:
@@ -29,8 +29,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install Python Test Dependencies
+        run: pip install pytest
+
       - name: Run Python Tests
-        run: pytest tests -q
+        run: python -m pytest tests -q
 
       - name: Run JS Script
         run: node sample-project/script.js
