@@ -37,7 +37,7 @@ jobs:
             --logger "trx;LogFileName=TestResults.trx"
 
       - name: Upload Test Results Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dotnet-test-results
           path: 03-dotnet-ci/DotnetApp.Tests/TestResults/TestResults.trx
