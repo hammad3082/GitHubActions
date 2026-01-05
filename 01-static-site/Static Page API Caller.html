@@ -2,47 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Static Page API Caller</title>
+  <title>Simple API Caller</title>
 </head>
 <body>
 
   <h1>API Call Example</h1>
 
-  <input
-    type="text"
-    id="apiUrl"
-    placeholder="Enter API URL (with params)"
-    style="width: 600px;"
-  />
+  <label>URL:</label><br />
+  <input type="text" id="apiUrl" style="width: 100%;" placeholder="https://api.example.com/data"><br /><br />
 
-  <br /><br />
+  <label>Method:</label><br />
+  <select id="method">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="PUT">PUT</option>
+    <option value="DELETE">DELETE</option>
+  </select><br /><br />
+
+  <label>Body (JSON):</label><br />
+  <textarea id="requestBody" style="width: 100%; height: 100px;" placeholder='{"key": "value"}'></textarea><br /><br />
 
   <button id="btn">Call API</button>
 
-  <pre id="output"></pre>
+  <hr />
+  <h3>Response:</h3>
+  <pre id="output" style="background: #eee; padding: 10px;">Results will appear here...</pre>
 
   <script>
     document.getElementById("btn").addEventListener("click", async () => {
-      const url = document.getElementById("apiUrl").value.trim();
+      const url = document.getElementById("apiUrl").value;
+      const method = document.getElementById("method").value;
+      const bodyText = document.getElementById("requestBody").value;
       const output = document.getElementById("output");
 
-      if (!url) {
-        output.textContent = "Please enter a valid URL.";
-        return;
+      const options = {
+        method: method,
+        credentials: "include",
+        headers: {}
+      };
+
+      if (method !== "GET" && bodyText.trim() !== "") {
+        options.body = bodyText;
+        options.headers["Content-Type"] = "application/json";
       }
 
       try {
-        const response = await fetch(url, {
-          credentials: "include"
-        });
-
-        if (!response.ok) {
-          throw new Error("HTTP error " + response.status);
-        }
-
+        output.textContent = "Loading...";
+        const response = await fetch(url, options);
         const data = await response.json();
         output.textContent = JSON.stringify(data, null, 2);
-
       } catch (err) {
         output.textContent = "Error: " + err.message;
       }
