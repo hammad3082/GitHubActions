@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Static Page API Caller</title>
+</head>
+<body>
+
+  <h1>API Call Example</h1>
+
+  <input
+    type="text"
+    id="apiUrl"
+    placeholder="Enter API URL (with params)"
+    style="width: 600px;"
+  />
+
+  <br /><br />
+
+  <button id="btn">Call API</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById("btn").addEventListener("click", async () => {
+      const url = document.getElementById("apiUrl").value.trim();
+      const output = document.getElementById("output");
+
+      if (!url) {
+        output.textContent = "Please enter a valid URL.";
+        return;
+      }
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+
+        const data = await response.json();
+        output.textContent = JSON.stringify(data, null, 2);
+
+      } catch (err) {
+        output.textContent = "Error: " + err.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
